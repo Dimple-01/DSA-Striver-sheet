@@ -10,7 +10,7 @@
 
 class Solution {
 public:
-TreeNode * ans; // at each recursive call it is not initialized
+
     TreeNode* getTargetCopy(TreeNode* original, TreeNode* cloned, TreeNode* target) {
         
         if(cloned == NULL)
@@ -19,12 +19,15 @@ TreeNode * ans; // at each recursive call it is not initialized
         }
         if(cloned->val == target->val)
         {
-            ans = cloned;
-            return ans;
+           return cloned;
         }
-        getTargetCopy(original, cloned->left, target);
-        getTargetCopy(original, cloned->right, target);
-        return ans;
+        TreeNode* left_result= getTargetCopy(original, cloned->left, target);
+        if(left_result)
+            return left_result;
+
+        return getTargetCopy(original, cloned->right, target);
+     
+
         
     }
 };
