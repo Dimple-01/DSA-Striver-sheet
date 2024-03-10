@@ -1,7 +1,6 @@
 class Solution {
 public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
-        
         set<int> ans,ans1;
         vector<int> res;
         for(auto & x: nums1)
@@ -14,7 +13,7 @@ public:
         }
         for(auto & z: ans)
         {
-            if(ans1.count(z) > 0)
+            if(ans1.find(z)!=ans1.end())
             {
                 res.push_back(z);
             }
