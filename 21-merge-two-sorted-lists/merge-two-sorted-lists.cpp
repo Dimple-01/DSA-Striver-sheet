@@ -10,38 +10,40 @@
  */
 class Solution {
 public:
-    ListNode* convert(vector<int> arr)
-    {
-        ListNode* head= new ListNode(arr[0]);
-        ListNode* mover = head;
-        for(int i =1;i<arr.size();i++)
-        {
-            ListNode* temp= new ListNode(arr[i]);
-            mover->next=temp;
-            mover=mover->next;
-        }
-        return head;
-    }
-   
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        if(list1==NULL && list2==NULL) return nullptr;
-        vector<int> arr;
+        ListNode* newnode= new ListNode();
+        ListNode* result= newnode;
         ListNode* temp1=list1;
-        ListNode* temp2 = list2;
-        while(temp1!=NULL)
+        ListNode* temp2=list2;
+        int i,j;
+        while(temp1!=nullptr && temp2!=nullptr)
         {
-            arr.push_back(temp1->val);
-            temp1=temp1->next;
+            if(temp1->val <= temp2->val)
+            {
+                result->next=temp1;
+                result=result->next;
+                temp1=temp1->next;
+                
+            }
+            else
+            {
+                result->next=temp2;
+                result=result->next;
+                temp2=temp2->next;
+            }
         }
-        while(temp2!=NULL)
+        while(temp1!=nullptr)
         {
-            arr.push_back(temp2->val);
-            temp2=temp2->next;
+             result->next=temp1;
+                result=result->next;
+                temp1=temp1->next;
         }
-        sort(arr.begin(),arr.end());
-        ListNode* head= convert(arr);
-        return head;
-
+        while(temp2!=nullptr)
+        {
+              result->next=temp2;
+                result=result->next;
+                temp2=temp2->next;
+        }
+        return newnode->next;
     }
-
 };
