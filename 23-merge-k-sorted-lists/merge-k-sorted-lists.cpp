@@ -10,35 +10,29 @@
  */
 class Solution {
 public:
-    ListNode* convert(vector<int> arr)
-    {
-        ListNode* t=new ListNode(arr[0]);
-        ListNode* mover = t;
-
-        for(int i=1;i<arr.size();i++)
-        {
-            ListNode* newnode= new ListNode(arr[i]);
-            mover->next= newnode;
-            mover = mover->next;
-        }
-        return t;
-    }
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        if(lists.empty()) return nullptr;
-        vector<int>arr;
+        priority_queue<pair<int,ListNode*>,vector<pair<int,ListNode*>>,
+        greater<pair<int,ListNode*>>> pq;
         for(int i=0;i<lists.size();i++)
         {
-            ListNode* temp1= lists[i];
-            if(temp1 == nullptr) continue;
-            while(temp1!=nullptr)
-            {
-                arr.push_back(temp1->val);
-                temp1=temp1->next;
-            }
+            if(lists[i]!=NULL)
+                pq.push({lists[i]->val,lists[i]});
         }
-        if(arr.empty()) return nullptr;
-        sort(arr.begin(),arr.end());
-        ListNode* result= convert(arr);
-        return result;
+        ListNode* dummynode= new ListNode(-1);
+        ListNode* temp= dummynode;
+        while(!pq.empty())
+        {
+            auto popped_ele=pq.top();
+            pq.pop();
+            if(popped_ele.second->next)
+            {
+                pq.push({popped_ele.second->next->val,popped_ele.second->next});
+            }
+            temp->next=popped_ele.second;
+            temp=temp->next;
+        }
+        return dummynode->next;
+
+        
     }
 };
