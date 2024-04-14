@@ -11,23 +11,36 @@
  */
 class Solution {
 public:
-    int dfs(TreeNode* root,int isLeft)
+int bfs(TreeNode* root,queue<TreeNode*> qu)
+{
+    int s=0;
+    if(root==NULL)
+        return 0;
+
+    qu.push(root);
+    while(!qu.empty())
     {
-        int s=0;
-        if(root==NULL)
+        TreeNode* nodes= qu.front();
+        qu.pop();
+        if(nodes->left!=nullptr)
         {
-            return NULL;
+            if(nodes->left->left == nullptr && nodes->left->right == nullptr)
+            {
+                s+=nodes->left->val;
+            }
+            else{
+                qu.push(nodes->left);
+            }
         }
-        
-       if(!root->left && !root->right && isLeft)
-            s+=root->val;
-        s+=dfs(root->left,1);
-        s+=dfs(root->right,0);
-        return s;
+        if(nodes->right!=nullptr)
+            qu.push(nodes->right);
     }
+    return s;
+
+}
     int sumOfLeftLeaves(TreeNode* root) {
-        return dfs(root,0);
+        queue<TreeNode*> qu;
+        return bfs(root,qu);
         
-       
     }
 };
